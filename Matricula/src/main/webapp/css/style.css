@@ -1,0 +1,43 @@
+/*******************GENERAL STYLES*******************/
+body {
+	background-color: white;
+}
+
+.sesionPanel {
+	margin-left: 170px;
+	text-align: center;
+}
+
+.sesionFieldSet {
+	width: 700px;
+	margin-left: 300px;
+}
+
+/*******************STUDENT STYLES*******************/
+.studentFieldSet {
+	margin-left: 100px;
+	margin-right: 100px;
+	text-align: center;
+	width: 900px;
+}
+
+/*******************REGISTRATION STYLES*******************/
+.registrationFieldSet {
+	margin-left: 100px;
+	margin-right: 100px;
+	text-align: center;
+}
+
+/*******************COMMON STYLES*******************/
+.commonFieldSet {
+	margin-left: 100px;
+	margin-right: 100px;
+	text-align: center;
+}
+
+.menuBarStyle {
+	position: fixed;
+	padding: 0px auto;
+	width: 100%;
+	top: 15px;
+}

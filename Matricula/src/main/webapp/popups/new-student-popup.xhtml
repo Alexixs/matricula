@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	<h:form id="popup">
+		<p:fieldset legend="Registro de estudiante" style="text-align:left">
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Nombre:" />
+				<p:inputText value="#{studentService.editStudent.strNombreEst}">
+					<p:ajax event="keyup" />
+				</p:inputText>
+				<h:outputLabel value="Nro documento:" />
+				<p:inputText value="#{studentService.editStudent.strNroDocEst}">
+					<p:ajax event="keyup" />
+				</p:inputText>
+				<h:outputLabel value="Direccion:" />
+				<p:inputText value="#{studentService.editStudent.strDireccion}">
+					<p:ajax event="keyup" />
+				</p:inputText>
+				<h:outputLabel value="Programa:" />
+				<h:panelGroup>
+					<h:inputText />
+					<p:commandLink>
+						<p:graphicImage url="/css/images/icons/ui-icon-find.ico" />
+					</p:commandLink>
+				</h:panelGroup>
+				<h:outputLabel value="Jornada:" />
+				<p:selectOneMenu id="jornadaDropDown" effect="fade" filter="true">
+					<f:selectItems />
+				</p:selectOneMenu>
+				<h:outputLabel value="Estado:" />
+				<p:selectOneRadio value="">
+					<f:selectItem itemLabel="Activo" itemValue="1" />
+					<f:selectItem itemLabel="Inactivo" itemValue="2" />
+				</p:selectOneRadio>
+				<h:outputLabel value="Observacion:" />
+				<p:inputTextarea cols="4" rows="5" style="width:350px; height:80px" />
+			</h:panelGrid>
+			<h:commandButton value="Guardar" title="Guardar ">
+				<p:ajax event="click" listener="#{studentService.saveStudent}"
+					update="popup" />
+			</h:commandButton>
+		</p:fieldset>
+	</h:form>
+</ui:composition>

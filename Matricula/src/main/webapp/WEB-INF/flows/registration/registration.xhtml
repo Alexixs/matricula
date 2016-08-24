@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/generalHome.xhtml">
+
+	<ui:define name="title">
+
+	</ui:define>
+	<ui:define name="content">
+		<h:form id="registrationForm" style="text-align:center">
+			<p:fieldset id="registrationFieldSet"
+				legend="#{msg['registration.studentRegistration']}"
+				style="text-align:left" styleClass="commonFieldSet">
+				<p:accordionPanel id="studentFilter">
+					<p:tab title="#{msg['registration.registrationFilter']}"
+						titletip="#{msg['registration.registrationFilterHint']}"
+						titleStyle="text-align:left">
+						<h:panelGrid columns="5">
+							<h:outputLabel value="#{msg['registration.asignature']}"
+								title="#{msg['registration.asignatureHint']}" />
+							<h:inputText>
+								<p:ajax event="keyup" />
+							</h:inputText>
+							<h:outputLabel value="#{msg['registration.collegePeriod']}"
+								title="#{msg['registration.collegePeriodHint']}" />
+							<h:inputText>
+								<p:ajax event="keyup" />
+							</h:inputText>
+						</h:panelGrid>
+					</p:tab>
+				</p:accordionPanel>
+				<p:spacer height="10px" />
+				<p:fieldset>
+					<p:toolbar>
+						<p:toolbarGroup align="left" id="addNewRegistration">
+							<h:commandButton image="/css/images/icons/ui-icon-newStudent.ico"
+								title="#{msg['registration.newRegistrationHint']}">
+								<p:ajax event="click" oncomplete="newRegistrationPopup.show()"
+									listener="#{registrationAction.configureNewRegistration}"
+									update=":registrationForm:newRegistrationPopupId"
+									global="false" />
+							</h:commandButton>
+						</p:toolbarGroup>
+						<p:spacer width="10px" />
+						<p:toolbarGroup align="left" id="cleanRegistrationFilter">
+							<h:commandButton image="/css/images/icons/ui-icon-clean.ico"
+								title="#{msg['common.cleanFilter']}"
+								style=" width : 32px; height : 32px;">
+								<p:ajax event="click" global="false" update=":registrationForm" />
+							</h:commandButton>
+						</p:toolbarGroup>
+						<p:toolbarGroup id="refreshButton">
+							<h:commandButton image="/css/images/icons/ui-icon-refresh.ico"
+								title="#{msg['common.refresh']}">
+								<p:ajax event="click"
+									listener="#{registrationAction.refreshList}"
+									update=":registrationForm:registrationTable" />
+							</h:commandButton>
+						</p:toolbarGroup>
+						<p:toolbarGroup align="right">
+							<p:commandLink title="#{msg['common.backToHome']}"
+								action="backToSignIn">
+								<p:graphicImage value="/css/images/icons/ui-icon-back.ico" />
+							</p:commandLink>
+						</p:toolbarGroup>
+					</p:toolbar>
+					<p:dataTable id="registrationTable" var="row"
+						selectionMode="single"
+						selection="#{registrationAction.selectedRegistrationRow}"
+						value="#{registrationAction.registrationList}"
+						emptyMessage="#{msg['registration.registrationNoFound']}"
+						rowKey="#{row.id}" paginator="true" rows="5">
+						<p:column headerText="#{msg['registration.student']}">
+							<h:outputText
+								value="#{row.matriculaEntity.estudiante.strNombreEst}"
+								title="#{msg['registration.studentHint']}" escape="false" />
+						</p:column>
+						<p:column headerText="#{msg['registration.program']}">
+							<h:outputText
+								value="#{row.matriculaEntity.programa.strNombrePro}"
+								title="#{msg['registration.programHint']}" escape="false" />
+						</p:column>
+						<p:column headerText="#{msg['registration.collegePeriod']}">
+							<h:outputText title="#{msg['registration.collegePeriodHint']}"
+								value="#{row.matriculaEntity.periodo.strDescripcionPER}"
+								escape="false" />
+						</p:column>
+						<p:column headerText="#{msg['registration.observations']}">
+							<h:outputText value="#{row.matriculaEntity.strObservacMat}"
+								title="#{msg['registration.observationsHint']}" escape="false" />
+						</p:column>
+
+						<p:column headerText="#{msg['common.action']}">
+							<h:commandButton image="/css/images/icons/ui-icon-delete.ico">
+								<p:ajax event="click" oncomplete="deletePopup.show()" />
+							</h:commandButton>
+							<h:commandButton image="/css/images/icons/ui-icon-edit.ico">
+								<p:ajax event="click" oncomplete="newRegistrationPopup.show()"
+									update=":registrationForm:newRegistrationPopupId"
+									listener="#{registrationAction.editRegistration}" />
+							</h:commandButton>
+						</p:column>
+						<p:ajax event="rowSelect" update="registrationTable"
+							global="false" />
+					</p:dataTable>
+				</p:fieldset>
+			</p:fieldset>
+
+			<!--****************************** Popups****************************** -->
+
+			<!-- Popup de registro de matricula -->
+			<p:dialog modal="true" widgetVar="newRegistrationPopup" height="500"
+				id="newRegistrationPopupId" width="900" hideEffect="explode"
+				showEffect="explode" resizable="false">
+				<p:fieldset legend="#{msg['registration.registrationPopupTitle']}"
+					style="text-align:left" styleClass="commonFieldSet">
+					<h:panelGrid columns="2" id="registrationPanel">
+						<h:outputLabel value="#{msg['registration.student']}"
+							title="#{msg['registration.studentHint']}" />
+						<h:panelGroup>
+							<p:inputText
+								value="#{registrationAction.editStudent.strNroDocEst}"
+								id="studentNroDocField">
+								<p:ajax event="keyup" />
+							</p:inputText>
+							<h:panelGroup>
+								<h:commandButton image="/css/images/icons/ui-icon-find.ico">
+									<p:ajax event="click" oncomplete="availableStudents.show()"
+										listener="#{registrationAction.loadAvailableStudents}"
+										update=":registrationForm:availableStudentTableId" />
+								</h:commandButton>
+								<p:spacer width="5px" />
+								<h:outputText
+									value="#{registrationAction.editStudent.strNombreEst}" />
+							</h:panelGroup>
+						</h:panelGroup>
+						<h:outputLabel value="#{msg['registration.program']}" />
+						<h:panelGrid columns="2">
+							<p:inputText
+								value="#{registrationAction.editProgram.strNombrePro}"
+								readonly="true" id="studentProgramNameField">
+							</p:inputText>
+							<h:commandButton image="/css/images/icons/ui-icon-find.ico">
+								<p:ajax event="click" oncomplete="availableProgram.show()"
+									listener="#{registrationAction.loadProgramList}"
+									update=":registrationForm:availablePrograms" />
+							</h:commandButton>
+						</h:panelGrid>
+						<h:outputLabel value="#{msg['registration.period']}" />
+						<h:selectOneMenu value="#{registrationAction.periodId}">
+							<p:ajax event="change" />
+							<f:selectItems value="#{registrationAction.periodList}"
+								var="item" itemLabel="#{item.strDescripcionPER}"
+								itemValue="#{item.id}" />
+						</h:selectOneMenu>
+						<h:outputLabel value="#{msg['registration.schoolDay']}"
+							title="#{msg['registration.schoolDayHint']}" />
+						<h:selectOneMenu value="#{registrationAction.schoolDayId}"
+							title="#{msg['registration.schoolDayHint']}">
+							<p:ajax event="change" />
+							<f:selectItems value="#{registrationAction.schoolDayChoices}"
+								var="item" itemLabel="#{item.strDescripcionJOR}"
+								itemValue="#{item.id}" />
+						</h:selectOneMenu>
+						<h:outputLabel value="#{msg['registration.observations']}" />
+						<p:inputTextarea cols="4" rows="5"
+							style="width:350px; height:80px"
+							value="#{registrationAction.editMatricula.strObservacMat}">
+							<p:ajax event="keyup" global="false" />
+						</p:inputTextarea>
+
+					</h:panelGrid>
+					<h:commandButton value="#{msg['common.save']}"
+						title="#{msg['common.saveHint']}"
+						style="margin-left: 250px;width:130px;height:35px;">
+						<p:ajax event="click"
+							listener="#{registrationAction.saveRegistration}"
+							update="registrationForm" />
+					</h:commandButton>
+				</p:fieldset>
+			</p:dialog>
+
+			<!--AVAILABLE STUDENTS-->
+			<p:dialog widgetVar="availableStudents" modal="true"
+				header="#{msg['student.studentsTitle']}" resizable="false"
+				height="350" width="800" showEffect="explode" hideEffect="explode">
+				<p:dataTable id="availableStudentTableId"
+					selection="#{registrationAction.selectedStudentRow}"
+					paginator="true" selectionMode="single" rows="5" var="row"
+					rowKey="#{row.estudianteEntity.id}"
+					value="#{registrationAction.studentList}">
+					<p:column headerText="#{msg['student.name']}">
+						<h:outputText title="#{msg['student.nameHint']}"
+							value="#{row.estudianteEntity.strNombreEst}" />
+					</p:column>
+					<p:column headerText="#{msg['student.nroDoc']}">
+						<h:outputText title="#{msg['student.nroDocHint']}"
+							value="#{row.estudianteEntity.strNroDocEst}" />
+					</p:column>
+					<p:ajax event="rowSelect" oncomplete="availableStudents.hide()"
+						global="false" update=":registrationForm:registrationPanel" />
+				</p:dataTable>
+			</p:dialog>
+
+			<!-- Popup para programas -->
+			<p:dialog widgetVar="availableProgram" resizable="false" height="350"
+				header="#{msg['program.academicPrograms']}" width="800"
+				showEffect="explode" hideEffect="explode" modal="true">
+				<p:dataTable value="#{registrationAction.programList}" var="row"
+					id="availablePrograms" paginator="true" selectionMode="single"
+					rows="5" selection="#{registrationAction.selectedProgramRow}"
+					rowKey="#{row.programaEntity.id}">
+					<p:column>
+						<f:facet name="header">
+							<h:outputLabel value="#{msg['program.programName']}"
+								title="#{msg['program.programNameHint']}" />
+						</f:facet>
+						<h:outputText value="#{row.programaEntity.strNombrePro}"
+							title="#{msg['program.programNameHint']}" escape="false" />
+					</p:column>
+					<p:ajax event="rowSelect" global="false"
+						oncomplete="availableProgram.hide()"
+						update=":registrationForm:studentProgramNameField" />
+				</p:dataTable>
+			</p:dialog>
+
+			<!--====================Delete popup==============-->
+			<p:dialog modal="true" widgetVar="deletePopup" height="100"
+				id="deleteRegistrationPopupId" width="500" hideEffect="explode"
+				showEffect="explode" resizable="false"
+				header="#{msg['common.confirmDelete']}">
+				<h:outputLabel value="#{msg['common.confirmDeleteHint']}" />
+				<br />
+				<br />
+				<h:panelGroup>
+					<h:commandButton value="#{msg['common.yes']}"
+						title="#{msg['common.yesHint']}">
+						<p:ajax event="click"
+							listener="#{registrationAction.deleteResponse}"
+							update=":registrationForm" />
+					</h:commandButton>
+					<h:commandButton value="#{msg['common.no']}"
+						title="#{msg['common.noHint']}">
+						<p:ajax event="click" update=":registrationForm" />
+					</h:commandButton>
+				</h:panelGroup>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

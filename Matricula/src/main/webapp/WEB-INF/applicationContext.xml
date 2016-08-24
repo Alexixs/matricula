@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:webflow-config="http://www.springframework.org/schema/webflow-config"
+	xsi:schemaLocation="http://www.springframework.org/schema/webflow-config http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="datasource-config.xml" />
+	<import resource="webflow-config.xml" />
+	<import resource="security-config.xml" />
+
+	<!-- Registro de beans -->
+	<bean id="studentAction" class="com.matricula.Actions.StudentAction">
+		<property name="serviceDao" ref="serviceDao" />
+		<property name="utilitiesDbService" ref="utilitiesDbService" />
+
+	</bean>
+
+	<bean id="registrationAction" class="com.matricula.Actions.RegistrationAction">
+		<property name="serviceDao" ref="serviceDao" />
+		<property name="utilitiesDbService" ref="utilitiesDbService" />
+
+	</bean>
+
+
+	<bean id="utilitiesDbService" class="com.matricula.utilities.impl.UtilitiesDbServiceImpl">
+		<property name="serviceDao" ref="serviceDao" />
+	</bean>
+
+	<bean id="userService" class="com.matricula.services.impl.UserServiceImpl" />
+	<bean id="serviceDao" class="com.matricula.base.dao.GenericJPADao" />
+
+	<!-- <bean id="userAuthenticationProviderService" class="com.matricula.services.impl.UserAuthenticationProviderServiceImpl"> -->
+	<!-- <property name="authenticationManager" ref="authenticationManager" 
+		/> -->
+	<!-- </bean> -->
+</beans>

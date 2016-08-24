@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/generalHome.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="title">
+	</ui:define>
+	<ui:define name="content">
+		<f:view contentType="text/html">
+			<head>
+<title>My first jquery website</title>
+<link rel="stylesheet" type="text/css"
+	href="${request.contextPath}/resources/css/generalInfoStyles.css" />
+			</head>
+			<body>
+				<h:form id="generalInfo">
+					<div id="Container">
+						<div id="Menu">
+							<ul>
+								<li><a href="#services">Servicios</a></li>
+								<li><a href="#information">Informacion</a></li>
+								<li><a href="#start">Inicio</a></li>
+								<li><a href="#questions">Preguntas</a></li>
+								<li><a href="#mainContact">Contacto</a></li>
+							</ul>
+						</div>
+						<div id="MainContent">
+							<div id="start">
+								<h1>Inicio</h1>
+								<div id="slider">
+									<div id="containerSlider">
+										<img src="" />
+									</div>
+								</div>
+							</div>
+
+							<div id="services">
+								<h1>Servicios</h1>
+								<div class="contentClass">
+									<p>Es un conjunto de actividades que buscan responder a las
+										necesidades de la gente. Los servicios incluyen una diversidad
+										de actividades desempeñadas por un crecido número de
+										funcionarios que trabajan para el estado (servicios públicos)
+										o para empresas particulares (servicios privados); entre estos
+										pueden señalarse los servicios de: electricidad, agua potable,
+										aseo, teléfono, telégrafo, correo, transporte, educación,
+										cibercafés, sanidad y asistencia social. Se define un marco en
+										donde las actividades se desarrollarán con la idea de fijar
+										una expectativa en el resultado de éstas. Es el equivalente no
+										material de un bien. Un servicio se diferencia de un bien
+										(físico o intangible) en que el primero se consume y se
+										desgasta de manera brutal puesto que la economía social nada
+										tiene que ver con la política moderna; es muy importante
+										señalar que la economía nacional no existe siempre en el
+										momento en que es prestado.</p>
+								</div>
+							</div>
+							<div id="information">
+								<h1>Informacion</h1>
+								<div class="contentClass">
+									<p>La información es un conjunto organizado de datos
+										procesados, que constituyen un mensaje que cambia el estado de
+										conocimiento del sujeto o sistema que recibe dicho mensaje.
+										Para Gilles Deleuze, la información es un sistema de control,
+										en tanto que es la propagación de consignas que deberíamos de
+										creer o hacer que creemos. En tal sentido la información es un
+										conjunto organizado de datos capaz de cambiar el estado de
+										conocimiento en el sentido de las consignas transmitidas. Los
+										datos sensoriales una vez percibidos y procesados constituyen
+										una información que cambia el estado de conocimiento, eso
+										permite a los individuos o sistemas que poseen dicho estado
+										nuevo de conocimiento tomar decisiones pertinentes acordes a
+										dicho conocimiento.</p>
+								</div>
+							</div>
+							<div id="questions">
+								<h1>Preguntas</h1>
+								<div class="contentClass">
+									<p></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:form>
+				<h:outputScript name="/javascript/jquery-1.11.2.min.js" />
+				<h:outputScript name="/javascript/script.js" target="body" />
+			</body>
+		</f:view>
+	</ui:define>
+</ui:composition>
